@@ -294,17 +294,6 @@ def get_parser():
                             help=mh("Disable deferred Optical simulation"))
     grp_pmt_op.set_defaults(deferred_op=False)
 
-    # == new optical model
-    grp_pmt_op.add_argument("--new-optical-model", dest="new_optical_model", action="store_true",
-                            help=mh("Enable new Optical simulation"))
-    grp_pmt_op.add_argument("--no-new-optical-model", dest="new_optical_model", action="store_false",
-                            help=mh("Disable new Optical simulation"))
-    grp_pmt_op.set_defaults(new_optical_model=False)   
-
-
-   
-
-
     # == opticks ==
     grp_pmt_op.add_argument("--opticks-mode", type=int, dest="opticks_mode", default=0,
                             help=mh("Control Opticks GPU Optical simulation"))
@@ -370,6 +359,11 @@ def get_parser():
     grp_anamgr.add_argument("--anamgr-normal", action="store_true", dest="anamgr_normal", help=mh("TBD"))
     grp_anamgr.add_argument("--no-anamgr-normal", action="store_false", dest="anamgr_normal", help=mh("TBD"))
     grp_anamgr.set_defaults(anamgr_normal=True)
+    # == normal hit ==
+    grp_anamgr.add_argument("--anamgr-normal-hit", action="store_true", dest="anamgr_normal_hit", help=mh("TBD"))
+    grp_anamgr.add_argument("--no-anamgr-normal-hit", action="store_false", dest="anamgr_normal_hit", help=mh("TBD"))
+    grp_anamgr.set_defaults(anamgr_normal=False)
+
     # == genevt ==
     grp_anamgr.add_argument("--anamgr-genevt", action="store_true", dest="anamgr_genevt", help=mh("TBD"))
     grp_anamgr.add_argument("--no-anamgr-genevt", action="store_false", dest="anamgr_genevt", help=mh("TBD"))
@@ -1348,18 +1342,9 @@ if __name__ == "__main__":
             op_process.property("ScintDoReemissionOnly").set(True)
 
         op_process.property("UseQuenching").set(args.quenching)
-
+        # new optical model
         op_process.property("UseAbsReemit").set(args.absreemit)
         op_process.property("UseScintSimple").set(args.scintsimple)
-        # new optical model
-        if args.new_optical_model:
-            op_process.property("UseAbsReemit").set(True)
-            op_process.property("UseScintSimple").set(True)
-            op_process.property("UseScintillation").set(False)       
-
-        
-       # op_process.property("UseAbsReemit").set(args.absreemit)
-       # op_process.property("UseScintSimple").set(args.scintsimple)
         # other flags:
         op_process.property("doTrackSecondariesFirst").set(args.track_op_first)
             
